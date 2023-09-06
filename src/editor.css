@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,700;0,900;1,700&display=swap');
+
+
+textarea.blockee-editor {
+    display: none;
+}
+
+.blockee-editor__toolbar {
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px;
+    background-color: white;
+
+    margin-bottom: 10px;
+
+}
+
+.blockee-editor__toolbar button {
+    appearance: none;
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+
+
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background: #e5e5e5;
+    cursor: pointer;
+
+    margin-right: 5px;
+}
+
+.blockee-editor__toolbar button svg {
+    margin-right: 3px;
+    position: relative;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+}
+
+.blockee-editor__toolbar button:focus {}
+.blockee-editor__toolbar button:hover {border-color: #666;}
+
+.blockee-editor__content {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    border: 1px solid #e5e5e5;
+}
+
+.blockee-element {
+    border:1px dotted #ccc;
+}
