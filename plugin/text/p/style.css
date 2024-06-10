@@ -1,0 +1,8 @@
+p.blockee-editor-block-element {
+    outline: none;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    line-height: 30px;
+    font-size: 22px;
+}
