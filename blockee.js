@@ -16,6 +16,13 @@ var blockeeEditorMouseY = 0;
 
 class blockeeEditor {
 
+    static version()
+    {
+        const version = "0.4.0";
+        console.log(version);
+        return version;
+    }
+
     constructor(name, node) {
 
         this.name = name;
