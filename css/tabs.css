@@ -1,0 +1,38 @@
+.blockee-editor-tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    margin-bottom: 2px;
+}
+
+.blockee-editor-tabs li {
+    display: inline-block;
+}
+
+.blockee-editor-tabs li a {
+
+
+    font-size: 14px;
+    font-weight: normal;
+    display: inline-block;
+    text-align: center;
+    padding: 7px 20px;
+    text-decoration: none;
+    color: #000;
+    background-color: #fff;
+}
+
+.blockee-editor-tabs li a.active {
+    color: #fff;
+    background-color: #006ce7;
+}
+
+.blockee-editor-tab--content  {
+    display: none;
+}
+
+.blockee-editor-tab--content.active {
+    display: block;
+}
+
