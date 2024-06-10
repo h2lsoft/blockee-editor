@@ -119,7 +119,7 @@ class blockeeEditor {
                 const signature = 'BlockeePlugin__'+plugin_name;
                 let info = eval(signature+".info()");
 
-                render += `<li data-blockee-group="${group}" data-blockee-plugin="${plugin_name}" onclick="BlockeePlugin__${plugin_name}.insert()"><img src="${plugin_path}/icon.svg"> ${info.title}</li>`;
+                render += `<li data-blockee-group="${group}" data-blockee-plugin="${plugin_name}" onclick="BlockeePlugin__${plugin_name}.insert()"><img src="${blockeeEditorUrl}/${plugin_path}/icon.svg"> ${info.title}</li>`;
 
             });
 
