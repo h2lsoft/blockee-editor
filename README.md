@@ -1,5 +1,5 @@
 # Blockee Editor
-A block-style editor with JSON output
+A WYSIWYG block-style editor
 
 just add .blockee-editor to your textarea
 
