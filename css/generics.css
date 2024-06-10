@@ -2,9 +2,13 @@ textarea.blockee-editor {
     display: none;
 }
 
-.blockee-editor.fullscreen {
+.fullscreen .blockee-editor__menu
+{
+    position: absolute;
+    z-index: 99999;
+}
 
-    position: fixed;
+.fullscreen .blockee-editor {
     top: 0;
     left: 0;
     width: 100vw;
@@ -15,12 +19,15 @@ textarea.blockee-editor {
     overflow-y: scroll;
 }
 
-.blockee-editor.fullscreen .blockee-editor__content {
+.fullscreen .blockee-editor .blockee-editor__content {
+
+    max-width: 1280px;
     height: calc(100vh - 60px);
+    margin: auto;
 }
 
 .blockee-editor {
-    position: initial;
+    position: relative;
     width: 100%;
     height: 450px;
     font-family: sans-serif;
