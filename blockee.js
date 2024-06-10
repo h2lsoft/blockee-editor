@@ -89,7 +89,7 @@ class blockeeEditor {
             </div>
             <div class="blockee-editor-window-footer">
                 <input type="button" value="Cancel" onclick="blockeeEditor.blockSettingsClose()">
-                <input type="submit" value="Save" onclick="blockeeEditor.blockSettingsValidate()">
+                <input type="submit" value="Save" onsubmit="return blockeeEditor.blockSettingsValidate()">
             </div>
         </div>`;
 
@@ -438,6 +438,8 @@ class blockeeEditor {
 
         blockeeEditor.update();
         blockeeEditor.blockSettingsClose();
+
+        return false;
     }
 
     static fileManagerOpen(node){
