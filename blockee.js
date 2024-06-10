@@ -114,7 +114,7 @@ class blockeeEditor {
             Object.keys(blockeeEditorPlugins[group]).forEach(function(plugin) {
 
                 let plugin_name = blockeeEditorPlugins[group][plugin];
-                let plugin_path = "/plugin/"+group+"/"+plugin_name;
+                let plugin_path = "plugin/"+group+"/"+plugin_name;
 
                 const signature = 'BlockeePlugin__'+plugin_name;
                 let info = eval(signature+".info()");
