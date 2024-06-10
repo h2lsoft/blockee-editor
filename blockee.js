@@ -1,3 +1,4 @@
+var blockeeEditorUrl = "";
 var blockeeEditorFileManagerUrl = false;
 
 var blockeeEditorInstances = [];
@@ -560,6 +561,15 @@ class blockeeEditor {
 
 $(function(){
 
+    // blockee url
+    const scripts = document.getElementsByTagName('script');
+    for (let script of scripts) {
+        if (script.src.endsWith('blockee.js')) {
+            blockeeEditorUrl = script.src;
+            blockeeEditorUrl = blockeeEditorUrl.replace('/blockee.js', '');
+        }
+    }
+
     // register mouse position
     document.addEventListener('mousemove', function(event) {
         blockeeEditorMouseX = event.clientX;
@@ -571,8 +581,8 @@ $(function(){
     let blockee_plugins_dirs = [];
     Object.keys(blockeeEditorPlugins).forEach(function(group) {
         Object.keys(blockeeEditorPlugins[group]).forEach(function(plugin_name) {
-            blockee_plugins_dirs[blockee_plugins_dirs.length] = `plugin/${group}/${blockeeEditorPlugins[group][plugin_name]}/style.css`;
-            blockee_plugins_dirs[blockee_plugins_dirs.length] = `plugin/${group}/${blockeeEditorPlugins[group][plugin_name]}/${blockeeEditorPlugins[group][plugin_name]}.js`;
+            blockee_plugins_dirs[blockee_plugins_dirs.length] = `${blockeeEditorUrl}/plugin/${group}/${blockeeEditorPlugins[group][plugin_name]}/style.css`;
+            blockee_plugins_dirs[blockee_plugins_dirs.length] = `${blockeeEditorUrl}/plugin/${group}/${blockeeEditorPlugins[group][plugin_name]}/${blockeeEditorPlugins[group][plugin_name]}.js`;
             blockeeEditorPluginsLoaded[blockeeEditorPluginsLoaded.length] = blockeeEditorPlugins[group][plugin_name];
         });
     });
