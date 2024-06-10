@@ -33,6 +33,86 @@ class blockeeEditor {
 
         $(this.node).after(render);
 
+
+        // add element
+        const canvas = `<div class="blockee-editor-canvas" onclick="blockeeEditor.actionMenuHide()"></div>`;
+        $('div.blockee-editor').append(canvas);
+
+        // init menu
+        render = `<div class="blockee-editor__menu blockee-editor__menu-plugin">`;
+        render += `<input type="search" placeholder="Search...">`;
+
+        Object.keys(blockeeEditorPlugins).forEach(function(group) {
+
+            let groupX = group.charAt(0).toUpperCase() + group.slice(1);
+            render += `<div class="blockee-editor__menu-group">${groupX}</div>`;
+            render += `<ul>`;
+
+            Object.keys(blockeeEditorPlugins[group]).forEach(function(plugin) {
+
+                let plugin_name = blockeeEditorPlugins[group][plugin];
+                let plugin_path = "/plugin/"+group+"/"+plugin_name;
+
+                const signature = 'BlockeePlugin__'+plugin_name;
+                let info = eval(signature+".info()");
+
+                render += `<li data-blockee-group="${group}" data-blockee-plugin="${plugin_name}" onclick="BlockeePlugin__${plugin_name}.insert()"><img src="${plugin_path}/icon.svg"> ${info.title}</li>`;
+
+            });
+
+            render += `</ul>`;
+        });
+
+        render += `</div>`;
+
+        // init block menu
+        render += `
+                    <div class="blockee-editor__menu blockee-editor__menu-block">
+                        <ul>
+                            <li class="blockee-editor__menu-block--li-add" onclick="blockeeEditor.blockAdd()">Add</li>
+                            <li class="blockee-editor__menu-block--li-duplicate" onclick="blockeeEditor.blockDuplicate()">Duplicate</li>
+                            <li class="divider"></li>
+                            <li class="blockee-editor__menu-block--li-configure" onclick="blockeeEditor.blockSettingsOpen()">Configure</li>
+                            <li class="divider"></li>
+                            <li class="blockee-editor__menu-block--li-up"  onclick="blockeeEditor.blockUp()">Up</li>
+                            <li class="blockee-editor__menu-block--li-down"  onclick="blockeeEditor.blockDown()">Down</li>
+                            <li class="divider"></li>                            
+                            <li class="blockee-editor__menu-block--li-delete" onclick="blockeeEditor.blockDelete()">Delete</li>
+                        </ul>
+                    </div>`;
+
+        // init window
+        render += `<div class="blockee-editor-window-canvas"></div>
+        <div class="blockee-editor-window">
+            <div class="blockee-editor-window-header">Configuration</div>
+            <div class="blockee-editor-window-body">
+            </div>
+            <div class="blockee-editor-window-footer">
+                <input type="button" value="Cancel" onclick="blockeeEditor.blockSettingsClose()">
+                <input type="submit" value="Save" onclick="blockeeEditor.blockSettingsValidate()">
+            </div>
+        </div>`;
+
+        // int toolbar
+        render += `    <div class="blockeditor-text-toolbar">
+                            <button data-command="bold" type="button"></button>
+                            <button data-command="italic" type="button"></button>
+                            <button data-command="underline" type="button"></button>
+                            <div class="divider"></div>
+                            <button data-command="strikeThrough" type="button"></button>
+                            <button data-command="hiliteColor" type="button"></button>
+                            <div class="divider"></div>
+                            <button data-command="indent" type="button"></button>
+                            <button data-command="outdent" type="button"></button>
+                            <div class="divider"></div>
+                            <button data-command="createLink" type="button"></button>
+                            <button data-command="unlink" type="button"></button>
+                            <div class="divider"></div>
+                            <button data-command="removeFormat" type="button"></button>
+                        </div>`;
+
+        $('div.blockee-editor').append(render);
+
         if(contents !== '')
         {
             contents = contents.replaceAll('&lt;', '<');
@@ -94,149 +174,7 @@ class blockeeEditor {
         });
     }
 
-
     static init(){
-
-        // init canvas
-        const canvas = `<div class="blockee-editor-canvas" onclick="blockeeEditor.actionMenuHide()"></div>`;
-        $('body').append(canvas);
-
-        // init menu
-        let render = `<div class="blockee-editor__menu blockee-editor__menu-plugin">`;
-        render += `<input type="search" placeholder="Search...">`;
-
-        Object.keys(blockeeEditorPlugins).forEach(function(group) {
-
-            let groupX = group.charAt(0).toUpperCase() + group.slice(1);
-            render += `<div class="blockee-editor__menu-group">${groupX}</div>`;
-            render += `<ul>`;
-
-            Object.keys(blockeeEditorPlugins[group]).forEach(function(plugin) {
-
-                let plugin_name = blockeeEditorPlugins[group][plugin];
-                let plugin_path = "plugin/"+group+"/"+plugin_name;
-
-                const signature = 'BlockeePlugin__'+plugin_name;
-                let info = eval(signature+".info()");
-
-                render += `<li data-blockee-group="${group}" data-blockee-plugin="${plugin_name}" onclick="BlockeePlugin__${plugin_name}.insert()"><img src="${blockeeEditorUrl}/${plugin_path}/icon.svg"> ${info.title}</li>`;
-
-            });
-
-            render += `</ul>`;
-        });
-
-        render += `</div>`;
-
-        // init block menu
-        render += `
-                    <div class="blockee-editor__menu blockee-editor__menu-block">
-                        <ul>
-                            <li class="blockee-editor__menu-block--li-add" onclick="blockeeEditor.blockAdd()">Add</li>
-                            <li class="blockee-editor__menu-block--li-duplicate" onclick="blockeeEditor.blockDuplicate()">Duplicate</li>
-                            <li class="divider"></li>
-                            <li class="blockee-editor__menu-block--li-configure" onclick="blockeeEditor.blockSettingsOpen()">Configure</li>
-                            <li class="divider"></li>
-                            <li class="blockee-editor__menu-block--li-up"  onclick="blockeeEditor.blockUp()">Up</li>
-                            <li class="blockee-editor__menu-block--li-down"  onclick="blockeeEditor.blockDown()">Down</li>
-                            <li class="divider"></li>                            
-                            <li class="blockee-editor__menu-block--li-delete" onclick="blockeeEditor.blockDelete()">Delete</li>
-                        </ul>
-                    </div>
-        `;
-
-        // init window
-        render += `<div class="blockee-editor-window-canvas"></div>
-        <div class="blockee-editor-window">
-            <div class="blockee-editor-window-header">Configuration</div>
-            <div class="blockee-editor-window-body">
-            </div>
-            <div class="blockee-editor-window-footer">
-                <input type="button" value="Cancel" onclick="blockeeEditor.blockSettingsClose()">
-                <input type="submit" value="Save" onclick="blockeeEditor.blockSettingsValidate()">
-            </div>
-        </div>`;
-
-        // int toolbar
-        render += `    <div class="blockeditor-text-toolbar">
-        <button data-command="bold" type="button"></button>
-        <button data-command="italic" type="button"></button>
-        <button data-command="underline" type="button"></button>
-        <div class="divider"></div>
-        <button data-command="strikeThrough" type="button"></button>
-        <button data-command="hiliteColor" type="button"></button>
-        <div class="divider"></div>
-        <button data-command="indent" type="button"></button>
-        <button data-command="outdent" type="button"></button>
-        <div class="divider"></div>
-        <button data-command="createLink" type="button"></button>
-        <button data-command="unlink" type="button"></button>
-        <div class="divider"></div>
-        <button data-command="removeFormat" type="button"></button>
-    </div>`;
-
-
-        $('body').append(render);
-
-
-        // attach menu event
-        $('.blockee-editor__menu-plugin li').click(function(e){
-            blockeeEditor.actionMenuHide();
-        });
-
-        $('.blockee-editor__menu-plugin input[type="search"]').on('input change', function(e){
-
-            $('.blockee-editor__menu-plugin li').removeClass('active');
-
-            let v = $(this).val().toLowerCase();
-            v = $.trim(v);
-
-            if($(this).val() == '')
-            {
-                $(this).parent().find('li').show();
-            }
-            else
-            {
-                $(this).parent().find('li').hide();
-
-                let lis = $(this).parent().find('li');
-                lis.each(function(){
-
-                    let li_text = $(this).text();
-                    li_text = $.trim(li_text.toLowerCase());
-
-                    if(li_text.indexOf(v) != -1 || $(this).data('blockee-plugin').indexOf(v) != -1)
-                        $(this).show();
-
-                });
-
-            }
-
-        });
-
-
-        // paste cleaner
-        $('body').on('paste', '.blockee-editor-block-element', function(e){
-
-            e.preventDefault();
-            let text = (e.originalEvent || e).clipboardData.getData('text/plain');
-            text = $.trim(text);
-            text = text.replaceAll("\r", "");
-            text = text.replaceAll("\n", "<br>");
-
-            const parentListItem = window.getSelection().focusNode.parentNode;
-            if(parentListItem.tagName === 'LI')
-            {
-                text = text.replaceAll('<br><br>', '<br>');
-                text = text.replaceAll("<br>", "</li><li>");
-                text = "<li>"+text+"</li>";
-            }
-
-
-            // document.execCommand('insertText', true, text);
-            blockeeEditor.insertHtmlAtCaret(text);
-
-        });
 
         // init textarea
         $('textarea.blockee-editor').each(function(){
@@ -244,43 +182,8 @@ class blockeeEditor {
             blockeeEditorInstances[blockeeEditorInstances.length] = new blockeeEditor(name, $(this));
         });
 
-        // detect enter
-        $('body').on('keydown', '.blockee-editor-block-element[contenteditable]', function(e){
-            if(e.which === 13)
-            {
-                e.preventDefault();
 
-                const parentListItem = window.getSelection().focusNode.parentNode;
-                if(parentListItem.tagName === 'LI')
-                {
-                    let $cur_li = $(parentListItem);
-                    let $new_li = $("<li>Item</li>");
-
-                    $new_li.insertAfter($cur_li);
-                    $new_li.focus();
-
-                    // Move the selection cursor to the beginning of the newly created list item
-                    let selection = window.getSelection();
-                    let range = document.createRange();
-                    range.selectNodeContents($new_li[0]);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-
-                }
-                else
-                {
-                    blockeeEditor.insertHtmlAtCaret("<br>");
-                }
-
-            }
-        });
-
-        // change
-        $('body').on('input', '.blockee-editor-block-element', function(e){
-            blockeeEditor.update();
-        });
     }
-
 
     static blockAdd(){
         blockeeEditor.actionMenuShow('block');
@@ -299,7 +202,6 @@ class blockeeEditor {
         $(".blockee-editor-block.active").remove();
         blockeeEditor.actionMenuHide();
     }
-
 
     static blockUp(){
 
@@ -327,8 +229,6 @@ class blockeeEditor {
         blockeeEditor.actionMenuHide();
 
     }
-
-
 
     static update(){
 
@@ -422,21 +322,16 @@ class blockeeEditor {
 
     static actionFullscreen(node)
     {
-        /*
         if(!document.fullscreenElement)
+        {
             $(node).parents('.blockee-editor')[0].requestFullscreen();
-        else
-            document.exitFullscreen();*/
-
-        if(!$(node).parents('.blockee-editor').hasClass('fullscreen'))
-        {
-            $(node).parents('.blockee-editor').addClass('fullscreen');
+            $('body').addClass('fullscreen');
         }
         else
         {
-            $(node).parents('.blockee-editor').removeClass('fullscreen');
+            document.exitFullscreen();
+            $('body').removeClass('fullscreen');
         }
-
     }
 
     static actionMenuShow(source="")
@@ -545,7 +440,6 @@ class blockeeEditor {
         blockeeEditor.blockSettingsClose();
     }
 
-
     static fileManagerOpen(node){
 
         if(!blockeeEditorFileManagerUrl)
@@ -594,6 +488,65 @@ $(function(){
         })
         .catch(error => {
             console.error('Error loading plugins:', error);
+    });
+
+    // detect enter
+    $('body').on('keydown', '.blockee-editor-block-element[contenteditable]', function(e){
+        if(e.which === 13)
+        {
+            e.preventDefault();
+
+            const parentListItem = window.getSelection().focusNode.parentNode;
+            if(parentListItem.tagName === 'LI')
+            {
+                let $cur_li = $(parentListItem);
+                let $new_li = $("<li>Item</li>");
+
+                $new_li.insertAfter($cur_li);
+                $new_li.focus();
+
+                // Move the selection cursor to the beginning of the newly created list item
+                let selection = window.getSelection();
+                let range = document.createRange();
+                range.selectNodeContents($new_li[0]);
+                selection.removeAllRanges();
+                selection.addRange(range);
+
+            }
+            else
+            {
+                blockeeEditor.insertHtmlAtCaret("<br>");
+            }
+
+        }
+    });
+
+    // change
+    $('body').on('input', '.blockee-editor-block-element', function(e){
+        blockeeEditor.update();
+    });
+
+    // paste cleaner
+    $('body').on('paste', '.blockee-editor-block-element', function(e){
+
+        e.preventDefault();
+        let text = (e.originalEvent || e).clipboardData.getData('text/plain');
+        text = $.trim(text);
+        text = text.replaceAll("\r", "");
+        text = text.replaceAll("\n", "<br>");
+
+        const parentListItem = window.getSelection().focusNode.parentNode;
+        if(parentListItem.tagName === 'LI')
+        {
+            text = text.replaceAll('<br><br>', '<br>');
+            text = text.replaceAll("<br>", "</li><li>");
+            text = "<li>"+text+"</li>";
+        }
+
+
+        // document.execCommand('insertText', true, text);
+        blockeeEditor.insertHtmlAtCaret(text);
+
     });
 
     // register text-toolbar
@@ -692,7 +645,6 @@ $(function(){
 
     // tabs
     $('body').on('click', '.blockee-editor-tabs a', function(e){
-
         e.preventDefault();
         $(this).parents('.blockee-editor-tabs').find('a').removeClass('active');
         $(this).addClass('active');
@@ -700,10 +652,41 @@ $(function(){
         let index = $(this).parents('li').index();
         $('.blockee-editor-tab--content').removeClass('active');
         $('.blockee-editor-tab--content').eq(index).addClass('active');
-
-
     });
 
+    // attach menu event
+    $('body').on('click', '.blockee-editor__menu-plugin li', function(e){
+        blockeeEditor.actionMenuHide();
+    });
+
+    $('body').on('input change', '.blockee-editor__menu-plugin input[type="search"]', function(e){
+
+        $('.blockee-editor__menu-plugin li').removeClass('active');
+
+        let v = $(this).val().toLowerCase();
+        v = $.trim(v);
+
+        if($(this).val() == '')
+        {
+            $(this).parent().find('li').show();
+        }
+        else
+        {
+            $(this).parent().find('li').hide();
+
+            let lis = $(this).parent().find('li');
+            lis.each(function(){
+
+                let li_text = $(this).text();
+                li_text = $.trim(li_text.toLowerCase());
+
+                if(li_text.indexOf(v) != -1 || $(this).data('blockee-plugin').indexOf(v) != -1)
+                    $(this).show();
+
+            });
+
+        }
+    });
 
 
 });
