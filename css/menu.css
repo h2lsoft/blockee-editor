@@ -1,8 +1,7 @@
-
 .blockee-editor-canvas {
 
     display: none;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
@@ -17,7 +16,7 @@
 
     background-color: white;
 
-    position: fixed;
+    position: absolute;
     z-index: 99999;
 
     display: none;
